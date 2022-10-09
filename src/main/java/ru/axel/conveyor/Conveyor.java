@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public final class Conveyor <K ,V> extends IConveyor<K, V> {
+public final class Conveyor <K ,V> implements IConveyor<K, V> {
     private static final Logger logger = MiniLogger.getLogger(Conveyor.class);
     private final LinkedHashMap<K, V> pipelines = new LinkedHashMap<>();
 
