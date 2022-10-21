@@ -7,8 +7,15 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class Conveyor <K ,V> implements IConveyor<K, V> {
-    private static final Logger logger = MiniLogger.getLogger(Conveyor.class);
+    private final Logger logger;
     private final LinkedHashMap<K, V> pipelines = new LinkedHashMap<>();
+
+    public Conveyor() {
+        logger = MiniLogger.getLogger(Conveyor.class);
+    }
+    public Conveyor(Logger loggerInstance) {
+        logger = loggerInstance;
+    }
 
     /**
      * Добавляет в конвейер новую фазу
@@ -38,7 +45,7 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
             throw new PipelinesException("Фазы " + afterPhase + " не существует!");
         }
 
-        LinkedHashMap<K, V> pipelinesCopy = new LinkedHashMap<>();
+        final LinkedHashMap<K, V> pipelinesCopy = new LinkedHashMap<>();
 
         pipelines.forEach((phaseName, exec) -> {
             pipelinesCopy.put(phaseName, exec);
@@ -70,7 +77,7 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
             throw new PipelinesException("Фазы " + beforePhase + " не существует!");
         }
 
-        LinkedHashMap<K, V> pipelinesCopy = new LinkedHashMap<>();
+        final LinkedHashMap<K, V> pipelinesCopy = new LinkedHashMap<>();
 
         pipelines.forEach((phaseName, exec) -> {
             if (Objects.equals(phaseName, beforePhase)) {
