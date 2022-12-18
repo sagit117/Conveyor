@@ -1,9 +1,8 @@
 package ru.axel.conveyor;
 
-import ru.axel.logger.MiniLogger;
-
 import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conveyor <K ,V> implements IConveyor<K, V> {
@@ -11,7 +10,7 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
     private final LinkedHashMap<K, V> pipelines = new LinkedHashMap<>();
 
     public Conveyor() {
-        logger = MiniLogger.getLogger(Conveyor.class);
+        logger = Logger.getLogger(Conveyor.class.getName());
     }
     public Conveyor(Logger loggerInstance) {
         logger = loggerInstance;
@@ -25,7 +24,9 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
     @Override
     public void addPipelines(K phase, V pipelineExecute) {
         pipelines.put(phase, pipelineExecute);
-        logger.config("Добавлен элемент конвейера в конец списка. Имя элемента: " + phase);
+        if (logger.isLoggable(Level.CONFIG)) {
+            logger.config("Добавлен элемент конвейера в конец списка. Имя элемента: " + phase);
+        }
     }
 
     /**
@@ -57,7 +58,9 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
 
         pipelines.clear();
         pipelines.putAll(pipelinesCopy);
-        logger.config("Добавлен элемент конвейера после " + afterPhase + ". Имя элемента: " + phase);
+        if (logger.isLoggable(Level.CONFIG)) {
+            logger.config("Добавлен элемент конвейера после " + afterPhase + ". Имя элемента: " + phase);
+        }
     }
 
     /**
@@ -89,7 +92,9 @@ public class Conveyor <K ,V> implements IConveyor<K, V> {
 
         pipelines.clear();
         pipelines.putAll(pipelinesCopy);
-        logger.config("Добавлен элемент конвейера перед " + beforePhase + ". Имя элемента: " + phase);
+        if (logger.isLoggable(Level.CONFIG)) {
+            logger.config("Добавлен элемент конвейера перед " + beforePhase + ". Имя элемента: " + phase);
+        }
     }
 
     /**
